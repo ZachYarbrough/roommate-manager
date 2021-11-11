@@ -11,10 +11,10 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^6.3.0",
-    "dotenv": "^10.0.0",
     "wait-on": "^6.0.0"
   },
   "dependencies": {
-    "electron": "^15.3.1"
+    "electron": "^15.3.1",
+    "jsonwebtoken": "^8.5.1"
   }
 }
