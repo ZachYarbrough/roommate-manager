@@ -1,0 +1,20 @@
+{
+  "name": "roommate-tracker",
+  "version": "1.0.0",
+  "description": "Roommate Management Application",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "concurrently -k \"cd server && npm run watch\" \"cd client && npm run electron-start\" \"wait-on http://localhost:3000 && cd client && electron .\""
+  },
+  "keywords": [],
+  "author": "Zach Yarbrough",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^6.3.0",
+    "dotenv": "^10.0.0",
+    "wait-on": "^6.0.0"
+  },
+  "dependencies": {
+    "electron": "^15.3.1"
+  }
+}
