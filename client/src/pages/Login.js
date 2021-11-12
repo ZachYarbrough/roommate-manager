@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Login = (props) => {
+const Login = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
 
     // update state based on form input changes
@@ -45,7 +45,7 @@ const Login = (props) => {
                     value={formState.password}
                     onChange={handleChange}
                 />
-                <button className='btn d-block w-100' type='submit'>
+                <button className='' type='submit'>
                     Submit
                 </button>
             </form>
