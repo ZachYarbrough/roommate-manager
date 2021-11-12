@@ -34,15 +34,6 @@ app.get('/ping', (req, res) => {
     res.json({ success: true });
 });
 
-// serve up static assets
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
-  }
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
-
 server.start().then(res => {
     server.applyMiddleware({ app });
     db.once('open', () => {

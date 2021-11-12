@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
+import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-const Login = () => {
-    const [formState, setFormState] = useState({ email: '', password: '' });
-    const [login, { loading, error }] = useMutation(LOGIN_USER);
+const Signup = () => {
+    const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', password: '' });
+    const [addUser, { loading, error }] = useMutation(ADD_USER);
 
     // update state based on form input changes
     const handleChange = (event) => {
@@ -25,19 +25,39 @@ const Login = () => {
         if (error) return `Error! ${error.message}`;
 
         try {
-            const { data } = await login({
+            // execute addUser mutation and pass in variable data from form
+            const { data } = await addUser({
                 variables: { ...formState }
             });
 
-            Auth.login(data.login.token);
+            Auth.login(data.addUser.token);
         } catch (e) {
             console.error(e);
         }
     };
 
     return (
-        <main>
+        <main className='flex-row justify-center mb-4'>
+            <h4 className='card-header'>Sign Up</h4>
             <form onSubmit={handleFormSubmit}>
+                <input
+                    className='form-input'
+                    placeholder='Your first name'
+                    name='firstName'
+                    type='firstName'
+                    id='firstName'
+                    value={formState.firstName}
+                    onChange={handleChange}
+                />
+                <input
+                    className='form-input'
+                    placeholder='Your last name'
+                    name='lastName'
+                    type='lastName'
+                    id='lastName'
+                    value={formState.lastName}
+                    onChange={handleChange}
+                />
                 <input
                     className='form-input'
                     placeholder='Your email'
@@ -56,7 +76,7 @@ const Login = () => {
                     value={formState.password}
                     onChange={handleChange}
                 />
-                <button className='' type='submit'>
+                <button className='btn d-block w-100' type='submit'>
                     Submit
                 </button>
             </form>
@@ -64,4 +84,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;

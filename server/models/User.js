@@ -24,16 +24,9 @@ const userSchema = new Schema(
             required: 'Password is required',
             minLength: 5
         },
-        roommates: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            }
-        ]
-    },
-    {
-        toJSON: {
-            virtuals: true
+        room: {
+            type: Schema.Types.ObjectId,
+            ref: 'Room'
         }
     }
 );
@@ -53,11 +46,6 @@ userSchema.methods.isCorrectPassword = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-// virtual of the amount of roommates the user has
-userSchema.virtual('roommateCount').get(function() {
-    return this.roommates.length;
-  });
-
-const User = model('User', userSchema)
+const User = model('User', userSchema);
 
 module.exports = User;
