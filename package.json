@@ -4,6 +4,7 @@
   "description": "Roommate Management Application",
   "main": "server/server.js",
   "scripts": {
+    "install:all": "npm i && cd server && npm i && cd ../client && npm i",
     "start:dev": "concurrently -k \"cd server && npm run watch\" \"cd client && npm run electron-start\" \"wait-on http://localhost:3000 && cd client && electron .\""
   },
   "keywords": [],

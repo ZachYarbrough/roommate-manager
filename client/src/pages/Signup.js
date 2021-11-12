@@ -25,7 +25,6 @@ const Signup = () => {
         if (error) return `Error! ${error.message}`;
 
         try {
-            // execute addUser mutation and pass in variable data from form
             const { data } = await addUser({
                 variables: { ...formState }
             });
@@ -34,6 +33,7 @@ const Signup = () => {
         } catch (e) {
             console.error(e);
         }
+
     };
 
     return (

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
+
 import Auth from '../utils/auth';
 
 const Login = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
-    const [login, { loading, error }] = useMutation(LOGIN_USER);
+    const [login, { error }] = useMutation(LOGIN_USER);
 
     // update state based on form input changes
     const handleChange = (event) => {
@@ -21,9 +22,6 @@ const Login = () => {
     const handleFormSubmit = async event => {
         event.preventDefault();
 
-        if (loading) return 'Loading...';
-        if (error) return `Error! ${error.message}`;
-
         try {
             const { data } = await login({
                 variables: { ...formState }
@@ -33,13 +31,23 @@ const Login = () => {
         } catch (e) {
             console.error(e);
         }
+
+        // clear form values
+        setFormState({
+            email: '',
+            password: ''
+        });
     };
 
     return (
-        <main>
-            <form onSubmit={handleFormSubmit}>
+        <main className='flex justify-center items-center h-screen'>
+            <h4 className="text-white font-bold">Login</h4>
+            <form className='flex flex-col rounded shadow
+                                bg-gray-600
+                                p-6 w-64'
+                onSubmit={handleFormSubmit}>
                 <input
-                    className='form-input'
+                    className='form-input rounded bg-gray-700 text-white'
                     placeholder='Your email'
                     name='email'
                     type='email'
@@ -48,7 +56,7 @@ const Login = () => {
                     onChange={handleChange}
                 />
                 <input
-                    className='form-input'
+                    className='form-input mt-2 rounded bg-gray-700 text-white'
                     placeholder='******'
                     name='password'
                     type='password'
@@ -56,10 +64,11 @@ const Login = () => {
                     value={formState.password}
                     onChange={handleChange}
                 />
-                <button className='' type='submit'>
+                <button className='px-4 py-2 mt-2 text-white bg-gray-700 hover:bg-gray-800 rounded shadow' type='submit'>
                     Submit
                 </button>
             </form>
+            {error && <div>Login failed</div>}
         </main>
     );
 };

@@ -1,24 +1,27 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import GET_USERS from '../utils/queries';
-
+import { CURRENT_USER } from '../utils/queries';
 
 const Dashboard = () => {
-    const { loading, error, data } = useQuery(GET_USERS);
-    const users = data?.users || [];
+    const { loading, error, data } = useQuery(CURRENT_USER);
+    const currentUser = data?.currentUser || [];
+
+    if (!currentUser?.email) {
+        return (
+            <h4>
+                You need to be logged in to see this page. Use the navigation links above to sign up or log in!
+            </h4>
+        );
+    }
 
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
 
     return (
         <main className='no-drag'>
-            {users.map(user => {
-                return (
-                    <div>
-                        {user.firstName} {user.lastName}
-                    </div>
-                );
-            })}
+            <h2>
+                Good Morning, {currentUser.firstName}
+            </h2>
         </main>
     );
 };
