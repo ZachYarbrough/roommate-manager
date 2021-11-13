@@ -40,8 +40,8 @@ const Login = () => {
     };
 
     return (
-        <main className='flex justify-center items-center h-screen'>
-            <h4 className="text-white font-bold">Login</h4>
+        <main className='flex flex-col justify-center items-center h-screen'>
+            <h4 className="text-black font-bold">Login</h4>
             <form className='flex flex-col rounded shadow
                                 bg-gray-600
                                 p-6 w-64'

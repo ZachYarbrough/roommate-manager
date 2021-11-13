@@ -1,23 +1,24 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+  type Room {
+    _id: ID
+    roomName: String
+    roommates: [User]
+    chores: [Chore]
+  }
+
   type User {
     _id: ID
     firstName: String
     lastName: String
     email: String
-    roommates: [User]
-  }
-
-  type Room {
-    _id: ID,
-    roommates: [User],
-    chores: [Chore]
+    room: Room
   }
 
   type Chore {
-    _id: ID,
-    chore: String,
+    _id: ID
+    chore: String
     roommates: [User]
   }
 
@@ -30,12 +31,14 @@ const typeDefs = gql`
     currentUser: User
     users: [User]
     user(email: String!): User
+    rooms: [Room]
+    room(roomId: ID!): Room
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addRoom(roomName: String!, roommates: [String]): Room
+    addRoom(roomName: String!, userId: ID!): Room
     addRoommate(roommateId: ID!): Auth
   }
 `;

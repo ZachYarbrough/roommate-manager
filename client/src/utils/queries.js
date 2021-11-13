@@ -23,6 +23,21 @@ export const CURRENT_USER = gql`
         firstName
         lastName
         email
+        room {
+          _id
+        }
       }
     }
+`;
+
+export const GET_ROOM = gql`
+  query getRoom($roomId: ID!) {
+    room(roomId: $roomId) {
+      _id
+      roomName
+      roommates {
+        _id
+      }
+    }
+  }
 `;

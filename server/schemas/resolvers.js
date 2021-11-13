@@ -22,7 +22,13 @@ const resolvers = {
     //searches for a single user based on email
     user: async (parent, { email }) => {
       return User.findOne({ email });
-    }
+    },
+    rooms: async () => {
+      return Room.find();
+    },
+    room: async (parent, { roomId }) => {
+      return Room.findOne({ roomId });
+    },
   },
   Mutation: {
     // logs a user in if email and password are valid
@@ -49,6 +55,26 @@ const resolvers = {
 
       return { token, user };
     },
+    //adds a new room to the database
+    addRoom: async (parent, { roomName, userId }, context) => {
+      if (context.user) {
+        const room = await Room.create({ roomName });
+        await Room.findOneAndUpdate(
+          { _id: room._id },
+          { $addToSet: { roommates: { _id: userId } } },
+          { new: true }
+        )
+        await User.findOneAndUpdate(
+          { _id: userId },
+          { room: { _id: room._id } },
+          { new: true }
+        )
+
+        return room;
+      }
+
+      throw new AuthenticationError('You need to be logged in!'); ƒ
+    }
   }
 };
 

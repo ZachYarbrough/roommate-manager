@@ -1,5 +1,5 @@
 import './App.css';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { setContext } from '@apollo/client/link/context';
 import Auth from './utils/auth';
@@ -12,6 +12,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import NoMatch from './pages/NoMatch';
+import CreateRoom from './pages/CreateRoom';
 
 // uses proxy server in package.json and sets endpoint to /graphql
 const httpLink = createHttpLink({
@@ -37,11 +38,12 @@ const client = new ApolloClient({
 
 function App() {
   const loggedIn = Auth.loggedIn();
+
   return (
     <ApolloProvider client={client}>
       <Router>
         <div className="container no-drag flex flex-wrap">
-          {Auth.loggedIn() && <Sidebar />}
+          {loggedIn && <Sidebar />}
           <Switch>
             <Route exact path="/">
               {loggedIn ? (<Redirect to='/dashboard' />) : (<Redirect to='/login' />)}
@@ -49,6 +51,7 @@ function App() {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/createRoom" component={CreateRoom} />
 
             <Route component={NoMatch} />
           </Switch>

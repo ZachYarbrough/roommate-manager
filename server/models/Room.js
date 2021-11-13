@@ -2,6 +2,11 @@ const { model, Schema } = require('mongoose');
 
 const roomSchema = new Schema(
     {
+        roomName: {
+            type: String,
+            required: 'Room name is required.',
+            trim: true
+        },
         roommates: [
             {
                 type: Schema.Types.ObjectId,

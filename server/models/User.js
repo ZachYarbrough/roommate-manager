@@ -22,7 +22,8 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: 'Password is required',
-            minLength: 5
+            minLength: 5,
+            trim: true
         },
         room: {
             type: Schema.Types.ObjectId,

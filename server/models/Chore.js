@@ -5,6 +5,7 @@ const choreSchema = new Schema(
         chore: {
             type: String,
             required: 'Chore is required',
+            trim: true
         },
         roommates: [
             {

@@ -26,3 +26,14 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_ROOM = gql`
+  mutation addRoom($roomName: String!, $userId: ID!) {
+    addRoom(roomName: $roomName, userId: $userId) {
+        roomName
+        roommates {
+          _id
+        }
+    }
+  }
+`;

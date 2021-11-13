@@ -1,27 +1,30 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { CURRENT_USER } from '../utils/queries';
+import { Redirect } from 'react-router-dom';
 
 const Dashboard = () => {
-    const { loading, error, data } = useQuery(CURRENT_USER);
-    const currentUser = data?.currentUser || [];
+    const { loading: loading_user, data: data_user } = useQuery(CURRENT_USER)
+    if(loading_user) return null
 
-    if (!currentUser?.email) {
+
+    if (!data_user.currentUser.room) {
         return (
-            <h4>
-                You need to be logged in to see this page. Use the navigation links above to sign up or log in!
-            </h4>
+            <Redirect to='/createRoom' />
         );
     }
-
-    if (loading) return 'Loading...';
-    if (error) return `Error! ${error.message}`;
 
     return (
         <main className='no-drag'>
             <h2>
-                Good Morning, {currentUser.firstName}
+                Good Morning, {data_user.currentUser.firstName}
             </h2>
+            <div>
+                <h2>
+                    {data_user.currentUser.firstName} {data_user.currentUser.lastName}
+                </h2>
+                <p>{data_user.currentUser.room._id}</p>
+            </div>
         </main>
     );
 };
