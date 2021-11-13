@@ -4,31 +4,39 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    // the current user that is logged
+    // returns all user info necessary for dashboard page
     currentUser: async (parent, args, context) => {
       if (context.user) {
+        // the current user that is logged
         const user = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
 
+        // finds room current user is in
         const room = await Room.findOne({ _id: user.room._id })
           .select('-__v')
 
-        return { user, room };
+        // finds all roommates in room
+        const roommates = await User.find({ _id: { $in: room.roommates } })
+          .select('-__v')
+
+        return { user, room, roommates };
       }
 
       throw new AuthenticationError('Not logged in');
     },
-    // searches for all users
+    // finds all users
     users: async () => {
       return User.find();
     },
-    //searches for a single user based on email
+    // finds a single user based on email
     user: async (parent, { email }) => {
       return User.findOne({ email });
     },
+    // finds all rooms
     rooms: async () => {
       return Room.find();
     },
+    // finds a single room based on _id
     room: async (parent, { roomId }) => {
       return Room.findOne({ roomId });
     },
@@ -42,6 +50,7 @@ const resolvers = {
         throw new AuthenticationError('Incorrect credentials');
       }
 
+      // uses helper function to verify password is correct
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
@@ -58,7 +67,7 @@ const resolvers = {
 
       return { token, user };
     },
-    //adds a new room to the database
+    // adds a new room to the database
     addRoom: async (parent, { roomName, userId }, context) => {
       if (context.user) {
         const room = await Room.create({ roomName });

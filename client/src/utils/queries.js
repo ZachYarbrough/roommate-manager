@@ -21,9 +21,12 @@ export const CURRENT_USER = gql`
       currentUser {
         user {
           _id
-        firstName
-        lastName
-        email
+          firstName
+          lastName
+          email
+          room {
+            _id
+          }
         }
         room {
           _id
@@ -31,6 +34,11 @@ export const CURRENT_USER = gql`
           roommates {
             _id
           }
+        }
+        roommates {
+            _id
+            firstName
+            lastName
         }
       }
     }
