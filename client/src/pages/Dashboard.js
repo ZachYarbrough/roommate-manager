@@ -4,11 +4,14 @@ import { CURRENT_USER } from '../utils/queries';
 import { Redirect } from 'react-router-dom';
 
 const Dashboard = () => {
-    const { loading: loading_user, data: data_user } = useQuery(CURRENT_USER)
-    if(loading_user) return null
+    const { loading, error, data } = useQuery(CURRENT_USER);
+    const user = data?.currentUser.user || [];
+    const room = data?.currentUser.room || [];
 
+    if(loading) return 'Loading...'
+    if(error) return `Error: ${error.message}`;
 
-    if (!data_user.currentUser.room) {
+    if (!room._id) {
         return (
             <Redirect to='/createRoom' />
         );
@@ -17,14 +20,17 @@ const Dashboard = () => {
     return (
         <main className='no-drag'>
             <h2>
-                Good Morning, {data_user.currentUser.firstName}
+                Good Morning, {user.firstName}
             </h2>
             <div>
-                <h2>
-                    {data_user.currentUser.firstName} {data_user.currentUser.lastName}
-                </h2>
-                <p>{data_user.currentUser.room._id}</p>
+                <p>Room: {room.roomName}</p>
             </div>
+            <h3>Roommates</h3>
+            <ul>
+                {room.roommates.map(roommate => {
+                    return(<li>{roommate.firstName} {roommate.lastName}</li>);
+                })}
+            </ul>
         </main>
     );
 };

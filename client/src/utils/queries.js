@@ -19,12 +19,18 @@ export const GET_USERS = gql`
 export const CURRENT_USER = gql`
     query currentUser {
       currentUser {
-        _id
+        user {
+          _id
         firstName
         lastName
         email
+        }
         room {
           _id
+          roomName
+          roommates {
+            _id
+          }
         }
       }
     }

@@ -7,10 +7,13 @@ const resolvers = {
     // the current user that is logged
     currentUser: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id })
+        const user = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
 
-        return userData;
+        const room = await Room.findOne({ _id: user.room._id })
+          .select('-__v')
+
+        return { user, room };
       }
 
       throw new AuthenticationError('Not logged in');

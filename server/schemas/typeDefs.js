@@ -27,8 +27,13 @@ const typeDefs = gql`
     user: User
   }
 
+  type CurrentUser {
+    user: User
+    room: Room
+  }
+
   type Query {
-    currentUser: User
+    currentUser: CurrentUser
     users: [User]
     user(email: String!): User
     rooms: [Room]
